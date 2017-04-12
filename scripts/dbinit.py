@@ -20,7 +20,7 @@ print('Dumping old data if exists...')
 cursor.execute("DROP TABLE IF EXISTS " + table_name)
 
 print('Creating new table...')
-cursor.execute("CREATE TABLE IF NOT EXISTS " + table_name + "(caseNum NUMERIC, ID NUMERIC, Case_Number VARCHAR(20), Crime_Date VARCHAR(40), Block VARCHAR(40), IUCR VARCHAR(20), Primary_Type VARCHAR(40), Description VARCHAR(50), Location_Description VARCHAR(50), Arrest VARCHAR(10), Domestic VARCHAR(10), Beat NUMERIC, District NUMERIC, Ward NUMERIC, Community_Area NUMERIC, FBI_Code VARCHAR(10), X_Coordinate DOUBLE, Y_Coordinate DOUBLE, Year INT, Updated_On VARCHAR(40), Latitude DOUBLE, Longitude DOUBLE, Location VARCHAR(50))" )
+cursor.execute("CREATE TABLE IF NOT EXISTS " + table_name + "(caseNum NUMERIC, ID NUMERIC, Case_Number VARCHAR(20), Crime_Date VARCHAR(40), Block VARCHAR(40), IUCR VARCHAR(20), Primary_Type VARCHAR(40), Description VARCHAR(200), Location_Description VARCHAR(50), Arrest VARCHAR(10), Domestic VARCHAR(10), Beat NUMERIC, District NUMERIC, Ward NUMERIC, Community_Area NUMERIC, FBI_Code VARCHAR(10), X_Coordinate DOUBLE, Y_Coordinate DOUBLE, Year INT, Updated_On VARCHAR(40), Latitude DOUBLE, Longitude DOUBLE, Location VARCHAR(50))" )
 
 print('Migrating data to database...')
 
