@@ -8,4 +8,4 @@ db = {
     'db' : 'bigdata'
 }
 
-table_name = 'crimes'
+table_name = 'crimes_lite'

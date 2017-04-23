@@ -15,7 +15,7 @@ mydb = mysql.connector.connect(user=db['user'],
 cursor = mydb.cursor()
 
 
-sql = "select * from " + table_name +" where year=2001 limit 50";
+sql = "select * from " + table_name
 
 crimes = pd.read_sql(sql, mydb)
 crimes = crimes.iloc[:, 3: ]
