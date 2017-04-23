@@ -2,9 +2,27 @@
 
 import pandas as pd
 from pandas import read_csv
+import csv
+import mysql.connector
+import config
+from config import db, table_name
 
-crimes = read_csv('../data/Chicago_Crimes_2012_to_2017.csv', index_col='Date')
 
-print(type(crimes))
+mydb = mysql.connector.connect(user=db['user'],
+    password=db['password'],
+    host=db['host'],
+    db=db['db'])
+cursor = mydb.cursor()
+
+
+sql = "select * from " + table_name +" where year=2001 limit 50";
+
+crimes = pd.read_sql(sql, mydb)
 crimes = crimes.iloc[:, 3: ]
 print(crimes.head())
+
+
+
+
+
+mydb.close()
