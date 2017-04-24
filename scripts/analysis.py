@@ -23,23 +23,33 @@ mydb = mysql.connector.connect(user=db['user'],
 cursor = mydb.cursor()
 
 sql = "select * from " + table_name
-crimes = pd.read_sql(sql, mydb)
+
+#Pulling data
+#crimes = pd.read_sql(sql, mydb)
+crimes = read_csv('../data/Chicago_Crimes_2012_to_2017.csv', index_col='Date')
+crimes2 = read_csv('../data/Chicago_Crimes_2001_to_2004.csv', index_col='Date', error_bad_lines=False)
+crimes3 = read_csv('../data/Chicago_Crimes_2005_to_2007.csv', index_col='Date', error_bad_lines=False)
+crimes4 = read_csv('../data/Chicago_Crimes_2008_to_2011.csv', index_col='Date', error_bad_lines=False)
+
+crimes2 = crimes2.append(crimes3)
+crimes2 = crimes2.append(crimes4)
+crimes = crimes2.append(crimes)
 
 #Truncate needless first 3 columns
 crimes = crimes.iloc[:, 3: ]
 print(crimes.head())
 
 #Index by Date
-crimes = crimes.set_index('Crime_Date')
+#crimes = crimes.set_index('Date')
 crimes.index = pd.to_datetime(crimes.index)
 crimes.sort_index(inplace=True)
 print(crimes.shape)
 print(crimes.head())
-types = crimes[['Primary_Type']]
+types = crimes[['Primary Type']]
 print(types.head())
 
 #Output sorted most occurrent crime types
-crime_count = pd.DataFrame(types.groupby('Primary_Type').size().sort_values(ascending=False).rename('count').reset_index())
+crime_count = pd.DataFrame(types.groupby('Primary Type').size().sort_values(ascending=False).rename('count').reset_index())
 print(crime_count.head())
 
 #seaborn - a better visualization for crime amounts
@@ -47,15 +57,29 @@ sns.set(style="whitegrid")
 f, ax = plt.subplots(figsize=(6,15))
 
 sns.set_color_codes("pastel")
-sns.barplot(x="count", y="Primary_Type", data = crime_count.iloc[:10, :], label="Total", color="b")
+sns.barplot(x="count", y="Primary Type", data = crime_count.iloc[:10, :], label="Total", color="b")
 ax.legend(ncol=2, loc="lower right", frameon=True)
 ax.set(ylabel="Type", xlabel="Crimes")
 sns.despine(left=True, bottom=True)
 plt.show()
 
-#Grabbing yearly information
 
+#Yearly crimes
+arrest_yearly = crimes[crimes['Arrest'] == True]['Arrest']
 
+plt.subplot()
+#Yearly
+arrest_yearly.resample('A').sum().plot()
+plt.title('Yearly Arrests')
+plt.show()
+#Monthly
+arrest_yearly.resample('M').sum().plot()
+plt.title('Monthly Arrests')
+plt.show()
+#Weekly
+arrest_yearly.resample('W').sum().plot()
+plt.title('Weekly Arrests')
+plt.show()
 
 
 #handle closings
