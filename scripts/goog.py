@@ -21,12 +21,20 @@ latitudes = [float(i) for i in crimes['Latitude'].tolist()]
 latitudes = [x for x in latitudes if x > 0 or x < 0]
 longitudes = [float(i) for i in crimes['Longitude'].tolist()]
 longitudes = [x for x in longitudes if x > 0 or x < 0]
-#coordinateList = crimes['Primary Type'].tolist()
+print(len(latitudes))
 
-#print(latitudes)
+for i in range(2001, 2017) :
+    year_homicides = crimes.loc[(crimes['Year'] == i)]
+    print(len(year_homicides))
+    lats = [float(x) for x in year_homicides['Latitude'].tolist()]
+    lats = [x for x in lats if x > 0 or x < 0]
+    longs = [float(x) for x in year_homicides['Longitude'].tolist()]
+    longs = [x for x in longs if x > 0 or x < 0]
+    gmap = gmplot.GoogleMapPlotter(41.8339037, -87.8722363, 11)
+    gmap.heatmap(lats, longs)
+    gmap.draw("../heatmaps/heatmap" + str(i) + ".html")
 
 gmap = gmplot.GoogleMapPlotter(41.8339037, -87.8722363, 11)
-#gmap = gmplot.GoogleMapPlotter(0, 0, 2)
 gmap.heatmap(latitudes, longitudes)
-gmap.draw("heatmap.html")
+gmap.draw("../heatmaps/heatmap2001-2017.html")
 print('finished!')
