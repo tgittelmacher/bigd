@@ -25,7 +25,10 @@ cursor = mydb.cursor()
 sql = "select * from " + table_name
 
 #Pulling data
+#cursor.execute(sql)
+#table_rows = cursor.fetchall()
 #crimes = pd.read_sql(sql, mydb)
+#crimes = pd.DataFrame(table_rows)
 crimes = read_csv('../data/Chicago_Crimes_2012_to_2017.csv', index_col='Date')
 crimes2 = read_csv('../data/Chicago_Crimes_2001_to_2004.csv', index_col='Date', error_bad_lines=False)
 crimes3 = read_csv('../data/Chicago_Crimes_2005_to_2007.csv', index_col='Date', error_bad_lines=False)
@@ -54,7 +57,7 @@ print(crime_count.head())
 
 #seaborn - a better visualization for crime amounts
 sns.set(style="whitegrid")
-f, ax = plt.subplots(figsize=(6,15))
+f, ax = plt.subplots(figsize=(8,15))
 
 sns.set_color_codes("pastel")
 sns.barplot(x="count", y="Primary Type", data = crime_count.iloc[:10, :], label="Total", color="b")
@@ -81,6 +84,15 @@ arrest_yearly.resample('W').sum().plot()
 plt.title('Weekly Arrests')
 plt.show()
 
+
+#Top 5 crimes
+top_crimes = pd.DataFrame(crimes[crimes['Primary Type'].isin(['THEFT', 'BATTERY', 'CRIMINAL DAMAGE', 'NARCOTICS', 'ASSAULT'])]['Primary Type'])
+grouper = top_crimes.groupby([pd.TimeGrouper('M'), 'Primary Type'])
+data_top_crimes = grouper['Primary Type'].count().unstack()
+
+data_top_crimes.plot()
+plt.title("Top 5 monthly crimes")
+plt.show()
 
 #handle closings
 sys.stdout = orig_stdout
