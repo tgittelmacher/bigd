@@ -15808,6 +15808,105 @@ TkSuQmCC
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">gmplot</span>
+<span class="kn">import</span> <span class="nn">math</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">crimes</span> <span class="o">=</span> <span class="n">crimes</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">crimes</span><span class="p">[</span><span class="s1">&#39;Primary Type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;HOMICIDE&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">crimes</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">crimes</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="n">latitudes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">crimes</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<span class="n">latitudes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">latitudes</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">longitudes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">crimes</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+<span class="n">longitudes</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">longitudes</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2001</span><span class="p">,</span> <span class="mi">2017</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">year_homicides</span> <span class="o">=</span> <span class="n">crimes</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">crimes</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)]</span>
+    <span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">year_homicides</span><span class="p">))</span>
+    <span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">year_homicides</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="n">lats</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lats</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">longs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">year_homicides</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+    <span class="n">longs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">longs</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">gmap</span> <span class="o">=</span> <span class="n">gmplot</span><span class="o">.</span><span class="n">GoogleMapPlotter</span><span class="p">(</span><span class="mf">41.8339037</span><span class="p">,</span> <span class="o">-</span><span class="mf">87.8722363</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+    <span class="n">gmap</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">longs</span><span class="p">)</span>
+    <span class="n">gmap</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;../heatmaps/heatmap&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.html&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1334
+780
+604
+454
+453
+481
+448
+513
+460
+438
+437
+503
+422
+424
+497
+772
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">gmap</span> <span class="o">=</span> <span class="n">gmplot</span><span class="o">.</span><span class="n">GoogleMapPlotter</span><span class="p">(</span><span class="mf">41.8339037</span><span class="p">,</span> <span class="o">-</span><span class="mf">87.8722363</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="n">gmap</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">latitudes</span><span class="p">,</span> <span class="n">longitudes</span><span class="p">)</span>
+<span class="n">gmap</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s2">&quot;../heatmaps/heatmap2001-2017.html&quot;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
     </div>
   </div>
 </body>
